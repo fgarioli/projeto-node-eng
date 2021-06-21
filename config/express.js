@@ -11,5 +11,10 @@ export default () => {
         res.status(404).json({ message: "Not Found" })
     });
 
+    // error handler
+    app.use((error, req, res, next) => {
+        return res.status(500).json({ error: error.toString() });
+    });
+
     return app;
 };

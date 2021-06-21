@@ -1,26 +1,53 @@
 import { Router } from "express";
-import mongoose from "mongoose";
+import UsuarioService from "../services/UsuarioService.js";
 
 /**
  * 
  * @param {Router} router 
  */
 export default function (router) {
-    router.get("/usuario/:id", (req, res) => {
-        res.json({ nome: "José da Silva", data_nasc: "2002-05-04" });
+    router.get("/usuario/:id", async (req, res, next) => {
+        try {
+            const obj = await UsuarioService.findById(req.params.id);
+            if (obj) {
+                res.json(obj);
+            } else {
+                res.status(404).send();
+            }
+        } catch (error) {
+            next(error);
+        }
     });
 
-    router.post("/usuario", async (req, res) => {
-        const Usuario = mongoose.model('Usuario', { nome: String });
-        const user = new Usuario(req.body);
-        res.json(await user.save());
+    router.post("/usuario", async (req, res, next) => {
+        try {
+            res.json(await UsuarioService.inserir(req.body));
+        } catch (error) {
+            next(error);
+        }
     });
 
-    router.put("/usuario/:id", (req, res) => {
-        res.json({ nome: "José da Silva", data_nasc: "2002-05-04" });
+    router.put("/usuario/:id", async (req, res, next) => {
+        try {
+            if (await UsuarioService.alterar(req.params.id, req.body)) {
+                res.status(204).send();
+            } else {
+                res.status(404).send();
+            }
+        } catch (error) {
+            next(error);
+        }
     });
 
-    router.delete("/usuario/:id", (req, res) => {
-        res.json({ nome: "José da Silva", data_nasc: "2002-05-04" });
+    router.delete("/usuario/:id", async (req, res, next) => {
+        try {
+            if (await UsuarioService.deletar(req.params.id)) {
+                res.status(204).send();
+            } else {
+                res.status(404).send();
+            }
+        } catch (error) {
+            next(error);
+        }
     });
 }

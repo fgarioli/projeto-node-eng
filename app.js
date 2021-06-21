@@ -4,9 +4,11 @@ import mongo from "./config/mongo.js"
 
 dotenv.config();
 
-mongo();
-var app = express();
+(async () => {
+    await mongo();
+    var app = express();
 
-app.listen(3000, () => {
-    console.log("Minha aplicação express.");
-});
+    app.listen(3000, () => {
+        console.log("Minha aplicação express.");
+    });
+})()

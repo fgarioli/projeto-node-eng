@@ -10,6 +10,7 @@ export default async () => {
         pass: process.env.MONGO_ROOT_PASSWORD,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
         authSource: "admin"
     });
 }
