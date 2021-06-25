@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == "development") {
     await mongo();
     var app = express();
 
-    app.listen(3000, () => {
+    app.listen(process.env.PORT || 3000, () => {
         console.log("Minha aplicação express.");
     });
 })()
