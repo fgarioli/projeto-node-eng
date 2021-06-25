@@ -2,7 +2,12 @@ import dotenv from "dotenv";
 import express from "./config/express.js";
 import mongo from "./config/mongo.js"
 
-dotenv.config();
+if (process.env.NODE_ENV == "development") {
+    const env_load = dotenv.config();
+    if (env_load.error) {
+        throw new Error(env_load.error.message);
+    }
+}
 
 (async () => {
     await mongo();
